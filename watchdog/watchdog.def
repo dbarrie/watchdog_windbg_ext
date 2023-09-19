@@ -1,0 +1,9 @@
+EXPORTS
+DebugExtensionNotify
+DebugExtensionInitialize
+DebugExtensionUninitialize
+help
+
+wdcfg
+wdlive
+wdcurr
