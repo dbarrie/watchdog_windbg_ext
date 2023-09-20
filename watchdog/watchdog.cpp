@@ -19,15 +19,36 @@ enum LogCategory
 class EXT_CLASS : public ExtExtension
 {
 public:
+    Extension()
+        : m_liveEventBp(nullptr)
+    {
+    }
+
+    virtual void Uninitialize();
+
     EXT_COMMAND_METHOD(wdcfg);
     EXT_COMMAND_METHOD(wdlive);
     EXT_COMMAND_METHOD(wdcurr);
+    EXT_COMMAND_METHOD(wdlivebpinstall);
 
     const static size_t kNumCategories = 11;
     const static char* gCategoryNames[kNumCategories];
+
+    PDEBUG_BREAKPOINT m_liveEventBp;
 };
 
 EXT_DECLARE_GLOBALS();
+
+void Extension::Uninitialize()
+{
+    if (m_liveEventBp)
+    {
+        m_Control->RemoveBreakpoint(m_liveEventBp);
+        m_liveEventBp = nullptr;
+    }
+
+    ExtExtension::Uninitialize();
+}
 
 const char* Extension::gCategoryNames[Extension::kNumCategories] =
 {
@@ -161,4 +182,46 @@ EXT_COMMAND(wdcurr,
 
     Out("Data: % 016p % 016p % 016p % 016p % 016p\n",
         data[0], data[1], data[2], data[3], data[4]);
+}
+
+EXT_COMMAND(wdlivebpinstall,
+    "Installs a breakpoint configured to automatically dump live Watchdog events",
+    "{r;b;;Remove breakpoint}")
+{
+    if (HasArg("r"))
+    {
+        if (m_liveEventBp)
+        {
+            m_Control->RemoveBreakpoint(m_liveEventBp);
+            m_liveEventBp = nullptr;
+            Out("Live Watchdog breakpoint removed!\n");
+        }
+        else
+        {
+            Out("No existing Live Watchdog breakpoint!\n");
+        }
+
+        return;
+    }
+
+    if (m_liveEventBp)
+    {
+        Out("Live Watchdog breakpoint already installed!\n");
+        return;
+    }
+
+    HRESULT hr;
+
+    hr = m_Control->AddBreakpoint(DEBUG_BREAKPOINT_CODE, DEBUG_ANY_ID, &m_liveEventBp);
+    if (hr != S_OK)
+    {
+        Out("Failed to create breakpoint!\n");
+        return;
+    }
+
+    m_liveEventBp->SetOffsetExpression("watchdog!WdLogLiveDumpBreakpoint");
+    m_liveEventBp->SetCommand("!watchdog.wdlive; g");
+    m_liveEventBp->AddFlags(DEBUG_BREAKPOINT_ADDER_ONLY | DEBUG_BREAKPOINT_GO_ONLY | DEBUG_BREAKPOINT_ENABLED);
+
+    Out("Installed Live Watchdog breakpoint!\n");
 }
