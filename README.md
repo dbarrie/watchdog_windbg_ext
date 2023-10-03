@@ -37,3 +37,6 @@ If live-logging is enabled for a given category, placing a breakpoint at `watchd
 
 ## !watchdog.wdcurr
 If debug-break is enabled for a given category, and the user replies to the prompt with 'b' to break into the debugger, this command will display the details of the logged event.
+
+## !watchdog.wdbp
+Installs a breakpoint at `watchdog!WdLogLiveDumpBreakpoint` with a command to dump the log entry and continue execution. Unfortunately, this only works while the process is actively running (not while stepping over a call, for example), but it can still be incredibly useful for dumping out all the log messages that are encountered.
