@@ -23,6 +23,7 @@
     <ClCompile Include="watchdog.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="cpp.hint" />
     <None Include="watchdog.def" />
   </ItemGroup>
   <ItemGroup>

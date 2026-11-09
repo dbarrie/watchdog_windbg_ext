@@ -132,7 +132,7 @@ EXT_COMMAND(wdlive,
         ThreadMem.GetUlong64(),
         EventAddress);
     
-    ULONG64 data[5];
+    ULONG64 data[5] = {};
     data[0] = Data0Mem.GetUlong64();
     data[1] = Data1Mem.GetUlong64();
     data[2] = Data2Mem.GetUlong64();
@@ -169,7 +169,7 @@ EXT_COMMAND(wdcurr,
         ThreadMem.GetUlong64(),
         EventAddress);
 
-    ULONG64 data[5];
+    ULONG64 data[5] = {};
     data[0] = Data0Mem.GetUlong64();
     data[1] = Data1Mem.GetUlong64();
     data[2] = Data2Mem.GetUlong64();
