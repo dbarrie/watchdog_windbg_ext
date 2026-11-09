@@ -25,7 +25,7 @@ Each log entry is 64 bytes (eight UINT64s), and contains the following informati
 
 The log entry is returned to the caller, is filled out, and is then passed back to watchdog.sys to be handled. Depending on the configuration state of the category in question, at this point one of three things happen. If the category is not enabled for live-logging or debug-break, nothing user-facing happens and execution continues uninterrupted. If debug-break is enabled, a message will be logged to the windbg asking the user how to proceed - they can break into the debugger, break into the debugger at the point where the log entry was created, ignore the entry, or ignore all entries coming from this address.
 
-With the extension installed, three new commands are available:
+With the extension installed, four new commands are available:
 
 ## !watchdog.wdcfg
 The wdcfg command takes two hex bitfield arguments, and configures the various watchdog log categories for either debug break or live logging behavior. The first argument controls which categories are live-logged, and the second controls which bring up the debug-break interface. Each argument is a bitfield of the various categories, represented as a single hex value.
