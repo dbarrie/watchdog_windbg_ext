@@ -18,7 +18,7 @@
     <ClCompile Include="watchdog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Program Files (x86)\Windows Kits\10\Debuggers\inc\engextcpp.cpp">
+    <ClCompile Include="$(WindowsSdkDir)\Debuggers\inc\engextcpp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
