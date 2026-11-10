@@ -40,3 +40,42 @@ If debug-break is enabled for a given category, and the user replies to the prom
 
 ## !watchdog.wdlivebpinstall
 Installs a breakpoint at `watchdog!WdLogLiveDumpBreakpoint` with a command to dump the log entry and continue execution. Unfortunately, this only works while the process is actively running (not while stepping over a call, for example), but it can still be incredibly useful for dumping out all the log messages that are encountered.
+
+# Example Live Log
+This is an example log generated after running these commands..
+
+```
+.load watchdog.dll
+!wdcfg F 0
+!wdlivebpinstall
+g
+```
+
+Followed by installing a problematic graphics driver.
+
+```
+Watchdog Live Event: dxgkrnl!DpiPdoAddPdo+0x5f1
+  Error # 0101935 thread=ffffe783150a5040 addr=fffff8022d0a19f5
+  Data: ffffffffc00000bb 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+Watchdog Live Event: dxgkrnl!DxgkQueryConnectionChanges+0x2da
+  Error # 0101936 thread=ffffe783150a5040 addr=fffff8022ce8131a
+  Data: ffffffffc00000bb 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+Watchdog Live Event: dxgkrnl!DxgkGetContentProtectionUserModeDriverName+0x1f
+  Error # 0101961 thread=ffffe783150a5040 addr=fffff8022d22e06f
+  Data: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+Watchdog Live Event: dxgkrnl!DxgkpQueryRegistry+0x411
+  Warning # 0102015 thread=ffffe783128de040 addr=fffff8022d19d545
+  Data: ffffffffc0000034 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+Watchdog Live Event: dxgkrnl!DxgkpQueryRegistry+0x411
+  Warning # 0102016 thread=ffffe783128de040 addr=fffff8022d19d545
+  Data: ffffffffc0000034 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+Watchdog Live Event: dxgkrnl!DXGADAPTER::GetNodePerfData+0x17c
+  Warning # 0102019 thread=ffffe783128de040 addr=fffff8022d130e30
+  Data: ffffe783123f9000 ffffffffc000000d 0000000000000000 0000000000000000 0000000000000000
+Watchdog Live Event: dxgkrnl!DxgkpQueryRegistry+0x411
+  Warning # 0102020 thread=ffffe78315067080 addr=fffff8022d19d545
+  Data: ffffffffc0000034 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+Watchdog Live Event: dxgkrnl!DXGADAPTER::GetAdapterPerfData+0xf0
+  Warning # 0102022 thread=ffffe783128de040 addr=fffff8022d131238
+  Data: ffffe783123f9000 ffffffffc000000d 0000000000000000 0000000000000000 0000000000000000
+```
