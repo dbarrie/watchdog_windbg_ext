@@ -125,8 +125,8 @@ EXT_COMMAND(wdlive,
     ExtBuffer<char> SymbolName;
     GetOffsetSymbol(EventAddress, &SymbolName, nullptr, true);
 
-    Out("Watchdog Live Event: %s\n", SymbolName);
-    Out("% 18s #% 08d thread=% 016p addr=% 016p\n", 
+    Out("Watchdog Live Event: %s\n", SymbolName.GetBuffer());
+    Out("  %s #% 08d thread=% 016p addr=% 016p\n", 
         gCategoryNames[category],
         EventOrderMem.GetUlong64(),
         ThreadMem.GetUlong64(),
@@ -139,7 +139,7 @@ EXT_COMMAND(wdlive,
     data[3] = Data3Mem.GetUlong64();
     data[4] = Data4Mem.GetUlong64();
 
-    Out("Data: % 016p % 016p % 016p % 016p % 016p\n",
+    Out("  Data: % 016p % 016p % 016p % 016p % 016p\n",
         data[0], data[1], data[2], data[3], data[4]);
 }
 
@@ -163,8 +163,8 @@ EXT_COMMAND(wdcurr,
     ExtBuffer<char> SymbolName;
     GetOffsetSymbol(EventAddress, &SymbolName, nullptr, true);
 
-    Out("Watchdog Current Event: %s\n", SymbolName);
-    Out("#% 08d thread=% 016p addr=% 016p\n",
+    Out("Watchdog Current Event: %s\n", SymbolName.GetBuffer());
+    Out("  #% 08d thread=% 016p addr=% 016p\n",
         EventOrderMem.GetUlong64(),
         ThreadMem.GetUlong64(),
         EventAddress);
@@ -176,7 +176,7 @@ EXT_COMMAND(wdcurr,
     data[3] = Data3Mem.GetUlong64();
     data[4] = Data4Mem.GetUlong64();
 
-    Out("Data: % 016p % 016p % 016p % 016p % 016p\n",
+    Out("  Data: % 016p % 016p % 016p % 016p % 016p\n",
         data[0], data[1], data[2], data[3], data[4]);
 }
 
