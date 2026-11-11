@@ -119,36 +119,28 @@ EXT_COMMAND(wdlive,
     ExtRemoteData Data3Mem("Data3", addr + 0x38, sizeof(ULONG64));
     ExtRemoteData Data4Mem("Data4", addr + 0x40, sizeof(ULONG64));
 
+    ULONG64 EventAddress = AddressMem.GetUlong64();
     LogCategory category = (LogCategory)CategoryMem.GetUlong();
 
-    Out("Watchdog Live Event:\n");
-    Out("% 18s #% 08d thread=% 016p addr=% 016p\n", 
+    ExtBuffer<char> SymbolName;
+    GetOffsetSymbol(EventAddress, &SymbolName, nullptr, true);
+
+    Out("Watchdog Live Event: %s\n", SymbolName.GetBuffer());
+    Out("  %s #% 08d thread=% 016p addr=% 016p\n", 
         gCategoryNames[category],
         EventOrderMem.GetUlong64(),
         ThreadMem.GetUlong64(),
-        AddressMem.GetUlong64());
-
-    ULONG64 data[5];
+        EventAddress);
+    
+    ULONG64 data[5] = {};
     data[0] = Data0Mem.GetUlong64();
     data[1] = Data1Mem.GetUlong64();
     data[2] = Data2Mem.GetUlong64();
     data[3] = Data3Mem.GetUlong64();
     data[4] = Data4Mem.GetUlong64();
 
-    Out("                       Data: % 016p % 016p % 016p % 016p % 016p\n",
+    Out("  Data: % 016p % 016p % 016p % 016p % 016p\n",
         data[0], data[1], data[2], data[3], data[4]);
-
-    /*
-    switch (category)
-    {
-    LC_ERROR:
-        
-    default:
-        Out("                       Data: % 016p % 016p % 016p % 016p % 016p\n",
-            data[0], data[1], data[2], data[3], data[4]);
-        break;
-    }
-    */
 }
 
 EXT_COMMAND(wdcurr,
@@ -167,20 +159,24 @@ EXT_COMMAND(wdcurr,
     ExtRemoteData Data3Mem("Data3", addr + 0x30, sizeof(ULONG64));
     ExtRemoteData Data4Mem("Data4", addr + 0x38, sizeof(ULONG64));
 
-    Out("Watchdog Current Event:\n");
-    Out("#% 08d thread=% 016p addr=% 016p\n",
+    ULONG64 EventAddress = AddressMem.GetUlong64();
+    ExtBuffer<char> SymbolName;
+    GetOffsetSymbol(EventAddress, &SymbolName, nullptr, true);
+
+    Out("Watchdog Current Event: %s\n", SymbolName.GetBuffer());
+    Out("  #% 08d thread=% 016p addr=% 016p\n",
         EventOrderMem.GetUlong64(),
         ThreadMem.GetUlong64(),
-        AddressMem.GetUlong64());
+        EventAddress);
 
-    ULONG64 data[5];
+    ULONG64 data[5] = {};
     data[0] = Data0Mem.GetUlong64();
     data[1] = Data1Mem.GetUlong64();
     data[2] = Data2Mem.GetUlong64();
     data[3] = Data3Mem.GetUlong64();
     data[4] = Data4Mem.GetUlong64();
 
-    Out("Data: % 016p % 016p % 016p % 016p % 016p\n",
+    Out("  Data: % 016p % 016p % 016p % 016p % 016p\n",
         data[0], data[1], data[2], data[3], data[4]);
 }
 

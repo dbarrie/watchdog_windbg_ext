@@ -19,10 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="C:\Program Files (x86)\Windows Kits\10\Debuggers\inc\engextcpp.cpp" />
+    <ClCompile Include="$(WindowsSdkDir)\Debuggers\inc\engextcpp.cpp" />
     <ClCompile Include="watchdog.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="cpp.hint" />
     <None Include="watchdog.def" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +98,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y $(TargetPath) %LocalAppData%\Dbg\EngineExtensions\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -116,6 +120,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y $(TargetPath) %LocalAppData%\Dbg\EngineExtensions\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -134,9 +141,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <ModuleDefinitionFile>watchdog.def</ModuleDefinitionFile>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y $(TargetPath) C:\Users\dylan\AppData\Local\Dbg\EngineExtensions\</Command>
+      <Command>xcopy /Y $(TargetPath) %LocalAppData%\Dbg\EngineExtensions\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -160,9 +168,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <ModuleDefinitionFile>watchdog.def</ModuleDefinitionFile>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y $(TargetPath) C:\Users\dylan\AppData\Local\Dbg\EngineExtensions\</Command>
+      <Command>xcopy /Y $(TargetPath) %LocalAppData%\Dbg\EngineExtensions\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
